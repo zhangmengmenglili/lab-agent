@@ -1,13 +1,39 @@
+from pkgutil import get_data
 from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from app.common.response import Response
 from app.models.user import User
 from app.dependencies.auth import get_current_user
-from app.schemas.user import UserResponse
+from app.schemas.user import UserResponse, UserUpdateRequest
+from app.services import user_service
+from app.services.user_service import get_user_info
+from app.database import get_db
+from app.schemas.user import PasswordUpdateRequest
+
 router = APIRouter(prefix="/user", tags=["用户信息接口"])
-@router.get("/info")
+
+@router.get("/me")
 def get_user_info(current_user: User = Depends(get_current_user)):
     """获取当前登录用户信息"""
-    return {
-        "code": 200,
-        "message": "请求成功",
-        "data": UserResponse.model_validate(current_user),
-    }
+    return Response.success(data=user_service.get_user_info(current_user))
+
+@router.put("/me")
+def update_user_info(
+    data: UserUpdateRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """更新当前用户信息"""
+    res = user_service.update_user_info(db, current_user, data)
+    return Response.success(data=res)
+
+
+@router.put("/password")
+def update_password(
+    data: PasswordUpdateRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """修改当前用户密码"""
+    user_service.update_password(db, current_user, data)
+    return Response.success(message="密码修改成功")

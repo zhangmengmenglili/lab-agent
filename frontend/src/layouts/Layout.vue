@@ -16,14 +16,16 @@
           <div style="margin-left: 5px">智能实验室预约系统</div>
         </div>
         <div>
-          <el-dropdown>
+          <el-dropdown @command="handleCommand">
             <div style="display: flex; align-items: center"; cursor: pointer>
-              <img src="@/assets/imgs/logo.png" alt="" style="width: 30px; border-radius: 50%" />
-              <div style="margin-left: 3px">管理员</div>
+              <img :src="userInfo?.avatar" alt="" style="width: 30px; border-radius: 50%" />
+              <div style="margin-left: 3px">{{ userInfo.name }}</div>
             </div>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item @click="hanldeLogout">退出登录</el-dropdown-item>
+                <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+                <el-dropdown-item command="profile">个人信息</el-dropdown-item>
+                <el-dropdown-item command="password">修改密码</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -58,12 +60,22 @@
   </div>
 </template>
 <script setup>
-import router from '@/router'
-import { logout } from '@/utils/auth'
+
 import { Menu as IconMenu, House, Setting, User } from '@element-plus/icons-vue'
 
-const hanldeLogout = () => {
-  logout()
-  router.push('/login')
+import { useUser } from '@/utils/user'
+import { logout } from '@/utils/auth'
+import router from '@/router'
+const { userInfo } = useUser()
+const handleCommand = (command) => {
+  if (command === 'profile') {
+    router.push('/manager/profile')
+  } else if (command === 'password') {
+    router.push('/manager/password')
+  } else if (command === 'logout') {
+    logout()
+    router.push('/login')
+  }
 }
+
 </script>

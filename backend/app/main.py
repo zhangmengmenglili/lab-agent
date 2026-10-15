@@ -13,6 +13,8 @@ from app.common.exceptions import(
     validation_excpetion_hadler,
     global_excpetion_hadler
 )
+from fastapi.staticfiles import StaticFiles
+from app.config import UPLOAD_DIR
 
 # 创建所有表
 Base.metadata.create_all(bind=engine)
@@ -38,6 +40,8 @@ app.add_exception_handler(HTTPException, http_excpetion_hadler)
 app.add_exception_handler(RequestValidationError, validation_excpetion_hadler)
 # 全局的异常兜底，必须放在最后注册！！
 app.add_exception_handler(Exception, global_excpetion_hadler)
+# 挂载静态资源：/uploads/xxx.jpg → uploads/xxx.jpg
+app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
 @app.get("/")
 def root():
