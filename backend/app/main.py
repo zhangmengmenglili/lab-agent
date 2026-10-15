@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from app.models.user import User
 from app.database import Base, engine
+from app.models.lab import Lab
 from app.api.auth import router as auth_router
 from app.api import api
 from fastapi import FastAPI, HTTPException
