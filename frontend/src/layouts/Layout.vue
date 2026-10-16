@@ -78,6 +78,11 @@
               <el-icon><User /></el-icon>
               用户管理
             </el-menu-item>
+
+            <el-menu-item index="/manager/ai-chat">
+              <el-icon><ChatDotRound /></el-icon>
+              AI智能助手
+            </el-menu-item>
           </el-menu>
         </el-aside>
         <el-main>
@@ -89,7 +94,7 @@
 </template>
 <script setup>
 
-import { Menu as IconMenu, House, Setting, User, Tickets, OfficeBuilding, DocumentChecked } from '@element-plus/icons-vue'
+import { Menu as IconMenu, House, Setting, User, OfficeBuilding, Tickets, Document, ChatDotRound } from '@element-plus/icons-vue'
 
 import { useUser } from '@/utils/user'
 import { logout } from '@/utils/auth'
