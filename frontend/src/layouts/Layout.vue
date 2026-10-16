@@ -38,11 +38,35 @@
               <el-icon><icon-menu /></el-icon>
               系统首页
             </el-menu-item>
-            <el-menu-item index="/manager/lab">
+            <el-menu-item index="/manager/lablist" v-if="userInfo?.role === 'student'">
+              <el-icon><OfficeBuilding /></el-icon>
+              实验室列表
+            </el-menu-item>
+
+            <el-menu-item index="/manager/my-reservation" v-if="userInfo?.role === 'student'">
+              <el-icon><Tickets /></el-icon>
+              我的预约
+            </el-menu-item>
+
+            <el-menu-item index="/manager/audit-reservation" v-if="userInfo?.role === 'admin'">
+              <el-icon><DocumentChecked /></el-icon>
+              预约审核
+            </el-menu-item>
+
+
+            <!-- <el-menu-item index="/manager/lab">
+              <el-icon><House /></el-icon>
+              实验室管理
+            </el-menu-item> -->
+            <el-menu-item v-if="userInfo?.role === 'admin'" index="/manager/lab">
               <el-icon><House /></el-icon>
               实验室管理
             </el-menu-item>
-            <el-menu-item index="/manager/equ">
+            <!-- <el-menu-item index="/manager/equ">
+              <el-icon><Setting /></el-icon>
+              设备列表管理
+            </el-menu-item> -->
+            <el-menu-item v-if="userInfo?.role === 'admin'" index="/manager/equipment">
               <el-icon><Setting /></el-icon>
               设备列表管理
             </el-menu-item>
@@ -65,7 +89,7 @@
 </template>
 <script setup>
 
-import { Menu as IconMenu, House, Setting, User } from '@element-plus/icons-vue'
+import { Menu as IconMenu, House, Setting, User, Tickets, OfficeBuilding, DocumentChecked } from '@element-plus/icons-vue'
 
 import { useUser } from '@/utils/user'
 import { logout } from '@/utils/auth'

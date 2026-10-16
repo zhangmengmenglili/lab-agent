@@ -16,6 +16,8 @@ from app.common.exceptions import(
 )
 from fastapi.staticfiles import StaticFiles
 from app.config import UPLOAD_DIR
+from app.models.equipment import Equipment
+from app.models.reservation import Reservation
 
 # 创建所有表
 Base.metadata.create_all(bind=engine)
